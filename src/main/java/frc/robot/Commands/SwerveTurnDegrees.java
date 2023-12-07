@@ -1,11 +1,11 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.SwerveDrive;
 
 // turn x degrees, not to a gyro degree
-public class SwerveTurnDegrees extends CommandBase {
+public class SwerveTurnDegrees extends Command {
     private SwerveDrive m_swerve;
     private Rotation2d target;
 

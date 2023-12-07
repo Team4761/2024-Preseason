@@ -1,11 +1,11 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.SwerveDrive;
 
 // field oriented, move relative to current position, forward should be -y, left +x
-public class SwerveGoCartesianF extends CommandBase {
+public class SwerveGoCartesianF extends Command {
     private SwerveDrive m_swerve;
     private Translation2d target;
     private double Pvalue = 0;
