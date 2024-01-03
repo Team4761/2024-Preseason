@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -12,13 +13,13 @@ public class VisionSubSystem extends SubsystemBase {
   //**ALL ANGLES IN RADIANS ALL DISTANCES IN METERS**//
   PhotonCamera mCamera;
   private static final VisionSubSystem INSTANCE = new VisionSubSystem();
-  double mCameraHeight = 0;
-  double mCameraPitch = 0;
+  double mCameraHeight = .19;
+  double mCameraPitch = Units.degreesToRadians(30);
 
   private boolean mDriverMode = false;
   public VisionSubSystem(){
     //Replace with name of cam
-    mCamera = new PhotonCamera(getName());
+    mCamera = new PhotonCamera("Camera");
   }
 
   @Override
@@ -39,16 +40,16 @@ public class VisionSubSystem extends SubsystemBase {
   }
   public Translation2d getTransDiff(double targetHeight){
     if(hasTargets()){
-      double pitch = mCamera.getLatestResult().getBestTarget().getPitch();
+      double pitch = Units.degreesToRadians(mCamera.getLatestResult().getBestTarget().getPitch());
       double distance = PhotonUtils.calculateDistanceToTargetMeters(
         mCameraHeight, 
         targetHeight, 
         mCameraPitch,
         pitch);
-      double yaw = mCamera.getLatestResult().getBestTarget().getYaw();
+      double yaw = Units.degreesToRadians(mCamera.getLatestResult().getBestTarget().getYaw());
       double yDiff = distance * Math.cos(pitch);
       double xDiff = yDiff / Math.cos(yaw) * Math.sin(yaw);
-      return new Translation2d(xDiff - 1, yDiff);
+      return new Translation2d(xDiff, yDiff - 1);
     }
     else{
       return new Translation2d();
@@ -59,8 +60,8 @@ public class VisionSubSystem extends SubsystemBase {
     mDriverMode = !mDriverMode;
     mCamera.setDriverMode(mDriverMode);
   }
-  //Returns false if not in driver mode
-  public boolean getDriverMode(){
-    return mCamera.getDriverMode();
+   //Returns false if not in driver mode
+   public boolean getDriverMode(){
+     return mCamera.getDriverMode();
   }
-}
+} 
